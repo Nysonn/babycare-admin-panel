@@ -37,7 +37,6 @@ type ActionType = "approve" | "suspend" | "delete"
 interface DocPreview {
   url: string
   title: string
-  isPdf: boolean
 }
 
 export const UserDetail = () => {
@@ -334,21 +333,21 @@ export const UserDetail = () => {
               label="National ID"
               url={user.national_id_url}
               onPreview={(url) =>
-                setDocPreview({ url, title: "National ID", isPdf: false })
+                setDocPreview({ url, title: "National ID" })
               }
             />
             <DocCard
               label="LCI Letter"
               url={user.lci_letter_url}
               onPreview={(url) =>
-                setDocPreview({ url, title: "LCI Letter", isPdf: true })
+                setDocPreview({ url, title: "LCI Letter" })
               }
             />
             <DocCard
               label="CV / Resume"
               url={user.cv_url}
               onPreview={(url) =>
-                setDocPreview({ url, title: "CV / Resume", isPdf: true })
+                setDocPreview({ url, title: "CV / Resume" })
               }
             />
           </div>
@@ -372,7 +371,6 @@ export const UserDetail = () => {
         isOpen={docPreview !== null}
         url={docPreview?.url ?? ""}
         title={docPreview?.title ?? ""}
-        isPdf={docPreview?.isPdf}
         onClose={() => setDocPreview(null)}
       />
     </div>
