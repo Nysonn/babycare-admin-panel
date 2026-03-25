@@ -1,4 +1,5 @@
 import { X, FileText, ImageOff } from "lucide-react"
+import { createPortal } from "react-dom"
 
 interface DocumentPreviewModalProps {
   isOpen: boolean
@@ -33,9 +34,9 @@ export const DocumentPreviewModal = ({
 
   const isPdf = isPdfUrl(url)
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80"
       onClick={onClose}
     >
       <div
@@ -102,6 +103,7 @@ export const DocumentPreviewModal = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

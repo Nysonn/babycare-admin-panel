@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { Spinner } from "./Spinner"
 
 interface ConfirmModalProps {
@@ -37,9 +38,9 @@ export const ConfirmModal = ({
       ? "bg-red-600 hover:bg-red-700 text-white"
       : "bg-yellow-500 hover:bg-yellow-600 text-white"
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50"
       onClick={onCancel}
     >
       <div
@@ -66,6 +67,7 @@ export const ConfirmModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

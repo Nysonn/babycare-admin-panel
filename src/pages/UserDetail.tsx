@@ -248,7 +248,7 @@ export const UserDetail = () => {
 
           {/* Action buttons */}
           <div className="flex flex-wrap gap-2">
-            {isBabysitter && user.is_approved === false && (
+            {isBabysitter && !user.is_approved && (
               <button
                 onClick={() => setActiveAction("approve")}
                 className="flex items-center gap-1.5 rounded-lg bg-green-500 px-3 py-2 text-sm font-medium text-white hover:bg-green-600 transition-colors"
