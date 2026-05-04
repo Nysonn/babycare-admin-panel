@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { Search, UserX, Ban, Trash2 } from "lucide-react"
+import { Search, UserX, Ban, Archive } from "lucide-react"
 import toast from "react-hot-toast"
 import axios from "axios"
-import { listUsers, suspendUser, deleteUser } from "../api/endpoints/users"
+import { listUsers, suspendUser, archiveUser } from "../api/endpoints/users"
 import { Badge } from "../components/ui/Badge"
 import { ConfirmModal } from "../components/ui/ConfirmModal"
 import {
@@ -17,7 +17,7 @@ import { getInitials, formatDate, getStatusBadgeVariant } from "../utils/helpers
 import type { User } from "../types"
 import type { ApiError } from "../types"
 
-type ModalAction = "suspend" | "delete"
+type ModalAction = "suspend" | "archive"
 
 interface ModalState {
   type: ModalAction
@@ -63,23 +63,23 @@ export const Approvals = () => {
     onError: (e) => handleApiError(e, "Failed to suspend user"),
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: (id: string) => deleteUser(id),
+  const archiveMutation = useMutation({
+    mutationFn: (id: string) => archiveUser(id),
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] })
       setModal(null)
     },
-    onError: (e) => handleApiError(e, "Failed to delete user"),
+    onError: (e) => handleApiError(e, "Failed to archive user"),
   })
 
   const handleConfirm = () => {
     if (!modal) return
     if (modal.type === "suspend") suspendMutation.mutate(modal.user.id)
-    else deleteMutation.mutate(modal.user.id)
+    else archiveMutation.mutate(modal.user.id)
   }
 
-  const isMutating = suspendMutation.isPending || deleteMutation.isPending
+  const isMutating = suspendMutation.isPending || archiveMutation.isPending
 
   return (
     <div className="space-y-5">
@@ -138,7 +138,7 @@ export const Approvals = () => {
               user={user}
               onReview={() => navigate(`/users/${user.id}`)}
               onSuspend={() => setModal({ type: "suspend", user })}
-              onDelete={() => setModal({ type: "delete", user })}
+              onArchive={() => setModal({ type: "archive", user })}
             />
           ))}
         </div>
@@ -160,14 +160,14 @@ export const Approvals = () => {
         isLoading={isMutating}
       />
       <ConfirmModal
-        isOpen={modal?.type === "delete"}
-        title="Delete User"
+        isOpen={modal?.type === "archive"}
+        title="Archive User"
         message={
           modal
-            ? `Are you sure you want to delete ${modal.user.full_name}? This action cannot be undone.`
+            ? `Are you sure you want to archive ${modal.user.full_name}? Their account will be deactivated.`
             : ""
         }
-        confirmLabel="Delete"
+        confirmLabel="Archive"
         confirmVariant="danger"
         onConfirm={handleConfirm}
         onCancel={() => setModal(null)}
@@ -183,10 +183,10 @@ interface BabysitterCardProps {
   user: User
   onReview: () => void
   onSuspend: () => void
-  onDelete: () => void
+  onArchive: () => void
 }
 
-const BabysitterCard = ({ user, onReview, onSuspend, onDelete }: BabysitterCardProps) => (
+const BabysitterCard = ({ user, onReview, onSuspend, onArchive }: BabysitterCardProps) => (
   <div className="flex flex-col rounded-xl bg-white p-5 shadow-sm border border-slate-100 gap-4 dark:bg-zinc-900 dark:border-zinc-800">
     {/* Avatar + info */}
     <div className="flex items-center gap-3">
@@ -225,11 +225,11 @@ const BabysitterCard = ({ user, onReview, onSuspend, onDelete }: BabysitterCardP
           </button>
         )}
         <button
-          onClick={onDelete}
+          onClick={onArchive}
           className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-red-300 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 transition-colors"
         >
-          <Trash2 className="h-3.5 w-3.5" />
-          Delete
+          <Archive className="h-3.5 w-3.5" />
+          Archive
         </button>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const getUser = (id: string): Promise<UserDetail> =>
 export const suspendUser = (id: string): Promise<{ message: string }> =>
   api.put(`/api/v1/admin/users/${id}/suspend`).then((res) => res.data)
 
-export const deleteUser = (id: string): Promise<{ message: string }> =>
+export const archiveUser = (id: string): Promise<{ message: string }> =>
   api.delete(`/api/v1/admin/users/${id}`).then((res) => res.data)
 
 export const approveBabysitter = (id: string): Promise<{ message: string }> =>

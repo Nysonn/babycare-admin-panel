@@ -15,6 +15,7 @@ import { UserDetail } from "./pages/UserDetail"
 import { Approvals } from "./pages/Approvals"
 import { Activity } from "./pages/Activity"
 import { CreateAdmin } from "./pages/CreateAdmin"
+import { Reports } from "./pages/Reports"
 import { useToastStyles } from "./hooks/useToastStyles"
 import type { ReactNode } from "react"
 
@@ -111,6 +112,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <CreateAdmin />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <Reports />
           </ProtectedRoute>
         }
       />

@@ -78,6 +78,21 @@ export interface CreateAdminRequest {
   password: string
 }
 
+export interface Report {
+  id: string
+  reporter_id: string
+  reported_user_id: string
+  report_type: "spam" | "harassment" | "inappropriate" | "other"
+  description: string | null
+  status: "pending" | "resolved" | "dismissed"
+  created_at: string
+  updated_at: string
+  reporter_name: string
+  reporter_email: string
+  reported_name: string
+  reported_email: string
+}
+
 export interface ApiError {
   error: string
 }

@@ -8,6 +8,7 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Flag,
 } from "lucide-react"
 import toast from "react-hot-toast"
 import { useAppDispatch, useAppSelector } from "../../store"
@@ -20,6 +21,7 @@ const navItems = [
   { label: "Users", path: "/users", icon: Users },
   { label: "Approvals", path: "/approvals", icon: CheckCircle },
   { label: "Activity", path: "/activity", icon: Activity },
+  { label: "Reports", path: "/reports", icon: Flag },
   { label: "Create Admin", path: "/create-admin", icon: UserPlus },
 ]
 
